@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import 'package:ut_app/src/models/login_model.dart';
+import 'package:ut_app/src/providers/alumno_provider.dart';
+import 'package:ut_app/src/utils/utils.dart' as util;
+
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          _BackgoundLogin(),
-          _LoginForm()
-        ],
-      )
+    return ChangeNotifierProvider(
+      create: (_) => new LoginModel(),
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            _BackgoundLogin(),
+            _LoginForm()
+          ],
+        )
+      ),
     );
   }
 }
@@ -83,9 +92,13 @@ class _LoginForm extends StatelessWidget {
 class _InputMatricula extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    final model = Provider.of<LoginModel>(context);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: TextField(
+        textCapitalization: TextCapitalization.characters,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -95,6 +108,7 @@ class _InputMatricula extends StatelessWidget {
           hintText: 'Matricula',
           labelText: 'Matricula',
         ),
+        onChanged: (value) => model.matricula = value
       ),
     );
   }
@@ -103,6 +117,8 @@ class _InputMatricula extends StatelessWidget {
 class _InputPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    final model = Provider.of<LoginModel>(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: TextField(
@@ -114,6 +130,7 @@ class _InputPassword extends StatelessWidget {
           icon: Icon(Icons.lock_outline),
           labelText: 'Contraseña',
         ),
+        onChanged: (value) => model.password = value,
       ),
     );
   }
@@ -122,6 +139,9 @@ class _InputPassword extends StatelessWidget {
 class _ButtonIngresar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    final model = Provider.of<LoginModel>(context);
+
     return RaisedButton(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
@@ -133,7 +153,21 @@ class _ButtonIngresar extends StatelessWidget {
       elevation: 0.0,
       color: Color(0xff032B2E),
       textColor: Colors.white,
-      onPressed: () => Navigator.pushNamed(context, 'home'),
+      onPressed: () => _login(context, model),
     );
+  }
+
+  _login(BuildContext context, LoginModel model) async {
+    // print('Matricula => ${model.matricula}');
+    // print('Password => ${model.password}');
+
+    final alumnoProvider = AlumnoProvider();
+    final info = await alumnoProvider.iniciarSesion(model.matricula, model.password);
+    
+    if (info['ok']) {
+      Navigator.pushReplacementNamed(context, 'home');
+    } else {
+      util.mostrarAlerta(context, info['message']);
+    }
   }
 }
