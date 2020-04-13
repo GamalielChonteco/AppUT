@@ -72,7 +72,7 @@ class _CambiarParcial extends StatelessWidget {
     final alumnoModel = Provider.of<AlumnoModel>(context);
 
     return FutureBuilder(
-      future: periodoProvider.cargarPeriodos(),
+      future: periodoProvider.cargarPeriodos(alumnoModel.idAlumno),
       builder: (BuildContext context, AsyncSnapshot<List<PeriodoModel>> snapshot) {
         if (snapshot.hasData) {
           final periodos = snapshot.data;
@@ -83,15 +83,15 @@ class _CambiarParcial extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
               margin: EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
               child: DropdownButton(
-                value: alumnoModel.periodo,
-                onChanged: (value) => alumnoModel.periodo = value,
+                value: alumnoModel.cuatrimestre,
+                onChanged: (value) => alumnoModel.cuatrimestre = value,
                 items: periodos
                     .map((periodo) {
                       final fechaInicio = DateTime.parse(periodo.fechaInicio);
                       final fechaFin = DateTime.parse(periodo.fechaFin);
                       return DropdownMenuItem(
-                        value: periodo.idPeriodo,
-                        child: Text('${DateFormat('MMMM', 'es_ES').format(fechaInicio)} - ${DateFormat('MMMM', 'es_ES').format(fechaFin)} ${DateFormat('yy').format(fechaFin)}'),
+                        value: periodo.cuatrimestre,
+                        child: Text('${DateFormat('MMMM', 'es_ES').format(fechaInicio).toUpperCase()} - ${DateFormat('MMMM', 'es_ES').format(fechaFin).toUpperCase()} ${DateFormat('yy').format(fechaFin)}'),
                       );
                     })
                     .toList(),
@@ -114,7 +114,7 @@ class _TablaCalificaciones extends StatelessWidget {
     final calificacionProvider = CalificacionesProvider();
     
     return FutureBuilder(
-      future: calificacionProvider.cargarCalificaciones(alumnoModel.idAlumno, alumnoModel.periodo),
+      future: calificacionProvider.cargarCalificaciones(alumnoModel.idAlumno, alumnoModel.cuatrimestre),
       builder: (BuildContext context, AsyncSnapshot<List<CalificacionModel>> snapshot) {
         if (snapshot.hasData) {
           final calificacion = snapshot.data;

@@ -168,7 +168,7 @@ class _ButtonIngresar extends StatelessWidget {
       alumnoModel.idAlumno = info['token']['id_alumno'];
       alumnoModel.grupo = info['token']['grupo'];
       alumnoModel.estado = info['token']['estado'];
-      alumnoModel.periodo = info['token']['periodo'];
+      alumnoModel.cuatrimestre = info['token']['cuatrimestre'];
 
       Navigator.pushReplacementNamed(context, 'home');
     } else {

@@ -5,8 +5,8 @@ import 'package:ut_app/src/models/periodo_model.dart';
 class PeriodoProvider {
   final String _url = 'http://192.168.51.105:5000';
 
-  Future<List<PeriodoModel>> cargarPeriodos() async {
-    final url = '$_url/alumno/periodo';
+  Future<List<PeriodoModel>> cargarPeriodos(int idAlumno) async {
+    final url = '$_url/periodo/$idAlumno';
 
     final response = await http.get(
       url,

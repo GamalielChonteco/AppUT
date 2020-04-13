@@ -6,9 +6,9 @@ String calificacionModelToJson(CalificacionModel data) => json.encode(data.toJso
 
 class CalificacionModel {
   String materia;
-  int primero;
-  int segundo;
-  int tercero;
+  double primero;
+  double segundo;
+  double tercero;
 
   CalificacionModel({
     this.materia,
@@ -17,14 +17,17 @@ class CalificacionModel {
     this.tercero,
   });
 
-  double get promedio => (this.primero + this.segundo + this.tercero) / 3;
+  double get promedio {
+    if (this.primero == null || this.segundo == null || this.tercero == null) return 0;
+    return (this.primero + this.segundo + this.tercero) / 3;
+  }
 
   factory CalificacionModel.fromJson(Map<String, dynamic> json) =>
     CalificacionModel(
       materia: json["materia"],
-      primero: json["primero"],
-      segundo: json["segundo"],
-      tercero: json["tercero"],
+      primero: (json["primero"] == null) ? json["primero"] : json["primero"] / 1 ,
+      segundo: (json["segundo"] == null) ? json["segundo"] : json["segundo"] / 1 ,
+      tercero: (json["tercero"] == null) ? json["tercero"] : json["tercero"] / 1 ,
     );
 
   Map<String, dynamic> toJson() => {

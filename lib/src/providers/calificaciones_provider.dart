@@ -5,8 +5,10 @@ import 'package:ut_app/src/models/calificaciones_model.dart';
 class CalificacionesProvider {
   final String _url = 'http://192.168.51.105:5000';
 
-  Future<List<CalificacionModel>> cargarCalificaciones(int id_alumno, int id_periodo) async {
-    final url = '$_url/alumno/$id_alumno/$id_periodo';
+  Future<List<CalificacionModel>> cargarCalificaciones(int idAlumno, int cuatrimestre) async {
+    var url = '$_url/alumno/';
+
+    (cuatrimestre == 6 || cuatrimestre == 11) ? url += 'estadia/$idAlumno/$cuatrimestre' : url += '$idAlumno/$cuatrimestre';
 
     final response = await http.get(
       url,

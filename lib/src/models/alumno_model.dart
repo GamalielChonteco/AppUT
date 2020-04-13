@@ -6,6 +6,7 @@ class AlumnoModel with ChangeNotifier {
   String _grupo;
   String _estado;
   int _periodo;
+  int _cuatrimestre;
 
   String get matricula => this._matricula;
   set matricula(String valor) {
@@ -32,4 +33,11 @@ class AlumnoModel with ChangeNotifier {
     this._periodo = valor;
     notifyListeners();
   }
+
+  int get cuatrimestre => this._cuatrimestre;
+  set cuatrimestre(int valor) {
+    this._cuatrimestre = valor;
+    notifyListeners();
+  }
+
 }
