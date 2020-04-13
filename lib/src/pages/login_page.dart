@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:ut_app/src/models/alumno_model.dart';
 
 import 'package:ut_app/src/models/login_model.dart';
 import 'package:ut_app/src/providers/alumno_provider.dart';
@@ -9,16 +10,13 @@ import 'package:ut_app/src/utils/utils.dart' as util;
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => new LoginModel(),
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            _BackgoundLogin(),
-            _LoginForm()
-          ],
-        )
-      ),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          _BackgoundLogin(),
+          _LoginForm()
+        ],
+      )
     );
   }
 }
@@ -165,6 +163,13 @@ class _ButtonIngresar extends StatelessWidget {
     final info = await alumnoProvider.iniciarSesion(model.matricula, model.password);
     
     if (info['ok']) {
+      final alumnoModel = Provider.of<AlumnoModel>(context, listen: false);
+      alumnoModel.matricula = info['token']['matricula'];
+      alumnoModel.idAlumno = info['token']['id_alumno'];
+      alumnoModel.grupo = info['token']['grupo'];
+      alumnoModel.estado = info['token']['estado'];
+      alumnoModel.periodo = info['token']['periodo'];
+
       Navigator.pushReplacementNamed(context, 'home');
     } else {
       util.mostrarAlerta(context, info['message']);

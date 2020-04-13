@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ut_app/src/models/alumno_model.dart';
 
 class BottomMatricula extends StatelessWidget {
   
@@ -6,6 +8,7 @@ class BottomMatricula extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final alumno = Provider.of<AlumnoModel>(context);
 
     return ButtonTheme(
       minWidth: size.width,
@@ -16,7 +19,7 @@ class BottomMatricula extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Text(
-              'UTTI162020',
+              alumno.matricula.toString(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,

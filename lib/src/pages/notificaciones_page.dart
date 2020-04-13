@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ut_app/src/models/alumno_model.dart';
 import 'package:ut_app/src/widgets/boton_matricula.dart';
 import 'package:ut_app/src/widgets/header_delegate.dart';
 
@@ -24,6 +26,9 @@ class _MainScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final alumnoModel = Provider.of<AlumnoModel>(context);
+
     return CustomScrollView(
       slivers: <Widget>[
         SliverPersistentHeader(
@@ -51,7 +56,7 @@ class _MainScroll extends StatelessWidget {
               height: 200.0,
               margin: EdgeInsets.all(20.0),
               child: ClipRRect(
-                child: Text('Inscrito', style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black54),),
+                child: Text(alumnoModel.estado, style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black54),),
                 borderRadius: BorderRadius.circular(20.0),
               ),
               decoration: BoxDecoration(

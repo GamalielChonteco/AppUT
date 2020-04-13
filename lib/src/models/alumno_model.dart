@@ -1,33 +1,35 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
 
-AlumnoModel alumnoModelFromJson(String str) => AlumnoModel.fromJson(json.decode(str));
+class AlumnoModel with ChangeNotifier {
+  int _idAlumno;
+  String _matricula;
+  String _grupo;
+  String _estado;
+  int _periodo;
 
-String alumnoModelToJson(AlumnoModel data) => json.encode(data.toJson());
+  String get matricula => this._matricula;
+  set matricula(String valor) {
+    this._matricula = valor;
+  }
 
-class AlumnoModel {
-    int idAlumno;
-    String matricula;
-    String estado;
-    int idCarrera;
+  int get idAlumno => this._idAlumno;
+  set idAlumno(int valor) {
+    this._idAlumno = valor;
+  }
 
-    AlumnoModel({
-        this.idAlumno,
-        this.matricula,
-        this.estado,
-        this.idCarrera,
-    });
+  String get grupo => this._grupo;
+  set grupo(String valor) {
+    this._grupo = valor;
+  }
 
-    factory AlumnoModel.fromJson(Map<String, dynamic> json) => AlumnoModel(
-        idAlumno: json["id_alumno"],
-        matricula: json["matricula"],
-        estado: json["estado"],
-        idCarrera: json["id_carrera"],
-    );
+  String get estado => this._estado;
+  set estado(String valor) {
+    this._estado = valor;
+  }
 
-    Map<String, dynamic> toJson() => {
-        "id_alumno": idAlumno,
-        "matricula": matricula,
-        "estado": estado,
-        "id_carrera": idCarrera,
-    };
+  int get periodo => this._periodo;
+  set periodo(int valor) {
+    this._periodo = valor;
+    notifyListeners();
+  }
 }

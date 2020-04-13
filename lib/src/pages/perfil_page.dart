@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ut_app/src/models/alumno_model.dart';
 import 'package:ut_app/src/widgets/boton_matricula.dart';
 import 'package:ut_app/src/widgets/header_delegate.dart';
 
@@ -24,6 +26,7 @@ class _MainScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final alumnoModel = Provider.of<AlumnoModel>(context);
     return CustomScrollView(
       slivers: <Widget>[
         SliverPersistentHeader(
@@ -49,36 +52,12 @@ class _MainScroll extends StatelessWidget {
             Column(
               children: <Widget>[
                 SizedBox(height: 30.0),
-                Center(
-                  child: Container(
-                    width: 300.0,
-                    height: 300.0,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor.withOpacity(0.3),
-                            shape: BoxShape.circle
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            width: 250.0,
-                            height: 250.0,
-                            child: ClipOval(
-                              child: Image.asset('assets/image/ut-10.jpg'),
-                            )
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                _ImagePerfil(),
                 SizedBox(height: 30.0),
                 Column(
                   children: <Widget>[
                     Text(
-                      'Erick Nuñez Sarmiento',
+                      '${alumnoModel.periodo}',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: 25.0,
@@ -95,7 +74,7 @@ class _MainScroll extends StatelessWidget {
                     ),
                     SizedBox(height: 10.0),
                     Text(
-                      'TI-1102',
+                      alumnoModel.grupo,
                       style: TextStyle(
                         color: Colors.black45,
                         fontSize: 18.0,
@@ -114,6 +93,37 @@ class _MainScroll extends StatelessWidget {
   }
 }
 
+class _ImagePerfil extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 300.0,
+        height: 300.0,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withOpacity(0.3),
+                shape: BoxShape.circle
+              ),
+            ),
+            Center(
+              child: Container(
+                width: 250.0,
+                height: 250.0,
+                child: ClipOval(
+                  child: Image.asset('assets/image/ut-10.jpg'),
+                )
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _ButtonCerrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -128,7 +138,7 @@ class _ButtonCerrar extends StatelessWidget {
       elevation: 0.0,
       color: Colors.red,
       textColor: Colors.white,
-      onPressed: () {},
+      onPressed: () => Navigator.pushReplacementNamed(context, '/'),
     );
   }
 }
